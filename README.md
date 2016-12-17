@@ -25,6 +25,15 @@ For your convinience, Oracle Spatial RDF client jar files are included in the or
 
 #### Run Demo
 
-Please see net.dataninja.oracle.demo.OracleDataNinjaDemo.java class for guidance on how to use the Java client. You can run the command-line demo to see how the client works:
+Please see net.dataninja.oracle.demo.OracleDataNinjaDemo.java class for guidance on how to use the Java client. Edit the dataninja.conf configuration file to add your Oracle database credential (default values are provided):
+
+    oracle {
+        jdbcURL="jdbc:oracle:thin:@127.0.0.1:1521:orcl"
+        dbUser="scott"
+        dbPasswd="tiger"
+        dbModelName="extraction"
+    }
+
+You can run the command-line demo to see how the client works:
 
     $ java -cp ./jar/OracleDataNinjaClient.jar:./oraclejars/'*' net.dataninja.oracle.demo.OracleDataNinjaDemo

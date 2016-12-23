@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 DOCOMO Innovations, Inc.
+ * Copyright 2017 DOCOMO Innovations, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@
 
 package net.dataninja.smartsentiment.demo;
 
-import net.dataninja.oracle.client.Input;
+import net.dataninja.oracle.client.DataNinjaInput;
 import net.dataninja.smartsentiment.client.SmartSentimentApi;
 import net.dataninja.smartsentiment.client.SmartSentimentClient;
 
@@ -51,22 +51,22 @@ public class SmartSentimentDemo {
 
     // Service options can be con,cat,ee,ke,ks
     public Object findSmartSentimentDemo(SmartSentimentApi client, String data) {
-        Input input = new Input();
-        input.setMax_size(100);
-        input.setText(data);
-        return client.processSmartSentiment("ke,ee,ks", input);
+        DataNinjaInput dataNinjaInput = new DataNinjaInput();
+        dataNinjaInput.setMax_size(100);
+        dataNinjaInput.setText(data);
+        return client.processSmartSentiment("ke,ee,ks", dataNinjaInput);
     }
 
     public Object findSmartSentimentRdfDemo(SmartSentimentApi client, String data) {
-        Input input = new Input();
-        input.setMax_size(100);
-        input.setText(data);
+        DataNinjaInput dataNinjaInput = new DataNinjaInput();
+        dataNinjaInput.setMax_size(100);
+        dataNinjaInput.setText(data);
 
         // Get the response as string?
         // client --?
         // new String(((TypedByteArray) response.getBody()).getBytes());
 
-        return client.processSmartSentimentRdf("ke,ee,ks", input);
+        return client.processSmartSentimentRdf("ke,ee,ks", dataNinjaInput);
     }
 
     public static void main(String[] args) {

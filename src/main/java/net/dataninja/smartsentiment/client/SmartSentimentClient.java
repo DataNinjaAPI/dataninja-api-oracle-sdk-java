@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 DOCOMO Innovations, Inc.
+ * Copyright 2017 DOCOMO Innovations, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@
 
 package net.dataninja.smartsentiment.client;
 
-import net.dataninja.oracle.client.OracleDataNinjaConfig;
+import net.dataninja.oracle.client.DataNinjaOracleConfig;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 
@@ -29,7 +29,7 @@ import retrofit.RestAdapter;
  */
 public class SmartSentimentClient {
 
-    private static final OracleDataNinjaConfig config = new OracleDataNinjaConfig();
+    private static final DataNinjaOracleConfig config = new DataNinjaOracleConfig();
     private SmartSentimentApi smartSentimentApi;
 
     public SmartSentimentClient() {

@@ -36,4 +36,4 @@ Please see net.dataninja.oracle.demo.OracleDataNinjaDemo.java class for guidance
 
 You can run the command-line demo to see how the client works:
 
-    $ java -cp ./jar/OracleDataNinjaClient.jar:./oraclejars/'*' net.dataninja.oracle.demo.OracleDataNinjaDemo
+    $ java -cp ./jar/DataNinjaClientForOracle.jar:./oraclejars/'*' net.dataninja.oracle.demo.DataNinjaForOracleDemo

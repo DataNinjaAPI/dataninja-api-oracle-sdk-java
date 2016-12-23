@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 DOCOMO Innovations, Inc.
+ * Copyright 2017 DOCOMO Innovations, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
@@ -19,7 +19,7 @@
 
 package net.dataninja.smartsentiment.client;
 
-import net.dataninja.oracle.client.Input;
+import net.dataninja.oracle.client.DataNinjaInput;
 import retrofit.http.Body;
 import retrofit.http.POST;
 import retrofit.http.Query;
@@ -39,8 +39,8 @@ public interface SmartSentimentApi {
 	public static final String SMARTSENTIMENT_SVC_PATH = "/smartsentiment";
 
 	@POST("/smartsentiment/tagentity")
-	Results processSmartSentiment(@Query("option") String option, @Body Input input);
+	Results processSmartSentiment(@Query("option") String option, @Body DataNinjaInput dataNinjaInput);
 
 	@POST("/smartsentiment/tagentityrdf")
-	String processSmartSentimentRdf(@Query("option") String option, @Body Input input);
+	String processSmartSentimentRdf(@Query("option") String option, @Body DataNinjaInput dataNinjaInput);
 }

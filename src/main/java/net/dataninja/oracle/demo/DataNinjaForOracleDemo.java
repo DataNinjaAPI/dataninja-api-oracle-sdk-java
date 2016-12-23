@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 DOCOMO Innovations, Inc.
+ * Copyright 2017 DOCOMO Innovations, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
@@ -19,16 +19,23 @@
 
 package net.dataninja.oracle.demo;
 
-import net.dataninja.oracle.client.OracleDataNinjaClient;
-import net.dataninja.oracle.client.SimpleDataNinjaClient;
+import net.dataninja.oracle.client.DataNinjaClientForOracle;
+import net.dataninja.oracle.client.DataNinjaHttpClient;
 
 import java.io.Console;
 import java.sql.SQLException;
 
-public class OracleDataNinjaDemo {
+public class DataNinjaForOracleDemo {
 
-    private static SimpleDataNinjaClient dnClient = new SimpleDataNinjaClient();
-    private static OracleDataNinjaClient oraClient = new OracleDataNinjaClient();
+    private static DataNinjaHttpClient dnClient = new DataNinjaHttpClient();
+    private static DataNinjaClientForOracle oraClient;
+    static {
+        try {
+            oraClient = new DataNinjaClientForOracle();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Run through the Smart Sentiment APIs and show usage
@@ -42,16 +49,18 @@ public class OracleDataNinjaDemo {
             System.exit(1);
         }
 
-        // Find a Smart Data concept
-        input = cmdline.readLine("Enter text to analyze and extract RDF: ");
+        while (true) {
+            // Find a Smart Data concept
+            input = cmdline.readLine("Enter text to analyze and extract RDF: ");
 
-        String rdfData = fetchRdf(input);
-        System.out.println(rdfData);
+            String rdfData = fetchRdf(input);
+            System.out.println(rdfData);
 
-        storeRdf(rdfData);
+            storeRdf(rdfData);
+        }
     }
 
-    public void init() {
+    public void init() throws SQLException {
         oraClient.init();
     }
 
@@ -68,7 +77,7 @@ public class OracleDataNinjaDemo {
     }
 
     public static void main(String[] args) throws SQLException {
-        OracleDataNinjaDemo demo = new OracleDataNinjaDemo();
+        DataNinjaForOracleDemo demo = new DataNinjaForOracleDemo();
         // demo.init();
         demo.process();
     }

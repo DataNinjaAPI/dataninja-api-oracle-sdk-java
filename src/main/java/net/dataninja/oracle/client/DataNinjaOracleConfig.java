@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 DOCOMO Innovations, Inc.
+ * Copyright 2017 DOCOMO Innovations, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
@@ -24,9 +24,9 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
 /**
- * Holds configuration information related to the Smart Sentiment services
+ * Holds configuration information related to the Data Ninja services and Oracle connectivity.
  */
-public class OracleDataNinjaConfig {
+public class DataNinjaOracleConfig {
 
     private String apiUrl;
     private String mashapeKey;
@@ -37,8 +37,20 @@ public class OracleDataNinjaConfig {
     private String dbPasswd;
     private String dbModelName;
 
-    public OracleDataNinjaConfig() {
+    private String fileType="N-QUADS";
+    private String baseUri="http://dataninja.net";
 
+    // Performance parameters
+    private String tablespace="SEMTS";
+    private String flags=null;
+    // private String listener=null;
+    private String stagingTable=null;
+    private boolean truncateStagingTable=true;
+    private boolean bulkLoad=false;
+    private String bulkFlags="PARSE PARALLEL_CREATE_INDEX PARALLEL=4";
+    private String mbvMethod="shadow";
+
+    public DataNinjaOracleConfig() {
         // Use Yaml like config to read the conf file
         Config conf = ConfigFactory.load("dataninja.conf");
         this.mashapeKey = conf.getString("dataninja.mashape-key");
@@ -53,6 +65,18 @@ public class OracleDataNinjaConfig {
         this.dbUser = conf.getString("oracle.dbUser");
         this.dbPasswd = conf.getString("oracle.dbPasswd");
         this.dbModelName = conf.getString("oracle.dbModelName");
+        this.fileType=conf.getString("oracle.jdbcURL");
+        this.baseUri=conf.getString("oracle.jdbcURL");
+
+        // Performance parameters
+        this.tablespace=conf.getString("oracle.tablespace");
+        this.flags=conf.getString("oracle.flags");
+        // this.listener=conf.getString("oracle.jdbcURL");
+        this.stagingTable=conf.getString("oracle.stagingTable");
+        this.truncateStagingTable=conf.getBoolean("oracle.truncateStagingTable");
+        this.bulkLoad=conf.getBoolean("oracle.bulkLoad");
+        this.bulkFlags=conf.getString("oracle.bulkFlags");
+        this.mbvMethod=conf.getString("oracle.mbvMethod");
     }
 
     public String getApiUrl() {
@@ -85,6 +109,46 @@ public class OracleDataNinjaConfig {
 
     public String getDbModelName() {
         return dbModelName;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public String getBaseUri() {
+        return baseUri;
+    }
+
+    public String getTablespace() {
+        return tablespace;
+    }
+
+    public String getFlags() {
+        return flags;
+    }
+
+//    public String getListener() {
+//        return listener;
+//    }
+
+    public String getStagingTable() {
+        return stagingTable;
+    }
+
+    public boolean isTruncateStagingTable() {
+        return truncateStagingTable;
+    }
+
+    public boolean isBulkLoad() {
+        return bulkLoad;
+    }
+
+    public String getBulkFlags() {
+        return bulkFlags;
+    }
+
+    public String getMbvMethod() {
+        return mbvMethod;
     }
 
     public static void main(String[] args) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 DOCOMO Innovations, Inc.
+ * Copyright 2017 DOCOMO Innovations, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
@@ -31,13 +31,13 @@ import oracle.spatial.rdf.client.jena.*;
 // java -cp ./classes/:../jar/'*' DataNinjaLoader \
 // jdbc:oracle:thin:@127.0.0.1:1521:orcl scott tiger extraction $RDFFILE
 
-public class OracleDataNinjaClient {
+public class DataNinjaClientForOracle {
 
-    private static final OracleDataNinjaConfig config = new OracleDataNinjaConfig();
+    private static final DataNinjaOracleConfig config = new DataNinjaOracleConfig();
     private Oracle oracle;
     private DatasetGraphOracleSem dataset;
 
-    public OracleDataNinjaClient() {
+    public DataNinjaClientForOracle() throws SQLException {
         this.init();
     }
 
@@ -57,17 +57,19 @@ public class OracleDataNinjaClient {
         return dataset;
     }
 
-    public void init() {
+    public void init() throws SQLException {
         try {
             this.oracle = getOracle(config.getJdbcURL(), config.getDbUser(), config.getDbPasswd());
             this.dataset = getDataset(oracle, config.getDbModelName());
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
-            System.exit(0);
+            throw e;
         }
     }
 
     public void finish() throws SQLException {
+        this.dataset.close();
         this.oracle.dispose();
     }
 
@@ -79,31 +81,28 @@ public class OracleDataNinjaClient {
             // InputStream is = new FileInputStream(szFileName);
             // load NQUADS file into a staging table. This file can be gzipp'ed.
             dataset.prepareBulk(
-                    rdfStream,                  // input stream
-                    "http://dataninja.net",  // base URI
-                    "N-QUADS",              // data file type; can be "TRIG"
-                    "SEMTS",                // tablespace
-                    null,                   // flags
-                    null,          // listener
-                    null,                   // staging table name
-                    true                     // truncate staging table before load
+                    rdfStream,                  // Input Stream
+                    config.getBaseUri(),        // Base URI, e.g. "http://dataninja.net"
+                    config.getFileType(),       // Data file type, e.g "N-QUADS"
+                    config.getTablespace(),     // Tablespace name, e.g. "SEMTS"
+                    config.getFlags(),          // Additional flags
+                    null,          // Custom Listener info
+                    config.getStagingTable(),   // Staging table name
+                    config.isTruncateStagingTable() // truncate staging table before load
             );
             // Load quads from staging table into the dataset
             dataset.completeBulk(
-                    null, // flags; can be "PARSE PARALLEL_CREATE_INDEX PARALLEL=4
-                    // mbv_method=shadow" on a quad core machine
-                    null  // staging table name
+                    config.getBulkFlags(),   // Bulk loading flags; can be "PARSE PARALLEL_CREATE_INDEX PARALLEL=4
+                                             // mbv_method=shadow" on a quad core machine
+                    config.getStagingTable() // staging table name
             );
         } catch (Throwable t) {
             System.out.println("Hit exception " + t.getMessage());
-        } finally {
-            dataset.close();
-            oracle.dispose();
         }
     }
 
     public static void main(String[] args) throws Exception {
-        OracleDataNinjaClient oraClient = new OracleDataNinjaClient();
+        DataNinjaClientForOracle oraClient = new DataNinjaClientForOracle();
         oraClient.init();
         oraClient.insertRdf("Brack Obama");
         oraClient.finish();

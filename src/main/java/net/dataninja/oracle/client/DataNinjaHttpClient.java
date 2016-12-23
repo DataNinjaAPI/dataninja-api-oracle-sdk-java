@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 DOCOMO Innovations, Inc.
+ * Copyright 2017 DOCOMO Innovations, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
@@ -43,9 +43,9 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager;
 
 // This simple client uses the Apache HTTP Client to connect to Smart Sentiment service
 // Retrofit has problems parsing RDF content returned by Smart Sentiment
-public class SimpleDataNinjaClient {
+public class DataNinjaHttpClient {
 
-    private static final OracleDataNinjaConfig config = new OracleDataNinjaConfig();
+    private static final DataNinjaOracleConfig config = new DataNinjaOracleConfig();
 
     private static HttpClient httpClient = null;
 
@@ -57,13 +57,13 @@ public class SimpleDataNinjaClient {
 
             HttpPost postRequest = new HttpPost(config.getApiUrl() + "/smartsentiment/tagentityrdf");
 
-            Input input = new Input();
-            input.setText(text);
-            input.setUrl(url);
-            input.setMax_size(maxSize);
-            System.out.println(input.toJsonString());
+            DataNinjaInput dataNinjaInput = new DataNinjaInput();
+            dataNinjaInput.setText(text);
+            dataNinjaInput.setUrl(url);
+            dataNinjaInput.setMax_size(maxSize);
+            System.out.println(dataNinjaInput.toJsonString());
 
-            StringEntity entity = new StringEntity(input.toJsonString());
+            StringEntity entity = new StringEntity(dataNinjaInput.toJsonString());
             entity.setContentType("application/json");
             postRequest.setEntity(entity);
 
@@ -87,7 +87,6 @@ public class SimpleDataNinjaClient {
             BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
             StringBuffer sb = new StringBuffer();
             String line;
-            //
 
             // Simply iterate through RDF response and show on console.
             while ((line = br.readLine()) != null) {
@@ -142,7 +141,7 @@ public class SimpleDataNinjaClient {
     }
 
     public static void main(String[] args) {
-        SimpleDataNinjaClient client = new SimpleDataNinjaClient();
+        DataNinjaHttpClient client = new DataNinjaHttpClient();
         String output = client.fetchSmartSentimentRdf("Barack Obama", "http://www.cnn.com", 100);
         System.out.println("============RDF Output:============");
         System.out.println(output);

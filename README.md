@@ -1,8 +1,8 @@
-## Data Ninja Oracle Java client
+## Data Ninja Services Java client for Oracle Spatial and Graph Database
 
 ### Introduction
 
-This is a Java client for interfacing the Data Ninja Smart Data services with Oracle Spatial RDF services. Please see the Data Ninja documentation for the specification of the Smart Sentiment REST API.
+This is a Java client for interfacing the Data Ninja Smart Sentiment services with Oracle Spatial and Graph using RDF. Please see the Data Ninja documentation for the specification of the Smart Sentiment REST API.
 
 Please follow these instructions to get started with the Java Client. A pre-built of a client jar is included in the jar directory. Alternatively, you can build from source using JDK 1.8 and Maven.  
 

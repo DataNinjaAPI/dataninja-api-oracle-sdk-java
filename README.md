@@ -1,4 +1,4 @@
-## Data Ninja Services Java client for Oracle Spatial and Graph Database
+## Data Ninja Services Java client for Oracle Spatial and Graph - RDF Semantic Graph
 
 ### Introduction
 

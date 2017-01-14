@@ -45,9 +45,17 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager;
 // Retrofit has problems parsing RDF content returned by Smart Sentiment
 public class DataNinjaHttpClient {
 
-    private static final DataNinjaOracleConfig config = new DataNinjaOracleConfig();
+    private DataNinjaOracleConfig config;
 
     private static HttpClient httpClient = null;
+
+    public DataNinjaHttpClient() {
+        config = new DataNinjaOracleConfig();
+    }
+
+    public DataNinjaHttpClient(String configFile) {
+        config = new DataNinjaOracleConfig(configFile);
+    }
 
     public String fetchSmartSentimentRdf(String text, String url, int maxSize) {
         String output = "";

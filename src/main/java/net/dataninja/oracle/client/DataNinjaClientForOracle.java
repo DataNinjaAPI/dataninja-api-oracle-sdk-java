@@ -33,12 +33,18 @@ import oracle.spatial.rdf.client.jena.*;
 
 public class DataNinjaClientForOracle {
 
-    private static final DataNinjaOracleConfig config = new DataNinjaOracleConfig();
+    private DataNinjaOracleConfig config;
     private Oracle oracle;
     private DatasetGraphOracleSem dataset;
 
     public DataNinjaClientForOracle() throws SQLException {
-        this.init();
+        config = new DataNinjaOracleConfig();
+        // this.init();
+    }
+
+    public DataNinjaClientForOracle(String configFile) throws SQLException {
+        config = new DataNinjaOracleConfig(configFile);
+        // this.init();
     }
 
     private Oracle getOracle(String szJdbcURL,
@@ -97,7 +103,7 @@ public class DataNinjaClientForOracle {
                     config.getStagingTable() // staging table name
             );
         } catch (Throwable t) {
-            System.out.println("Hit exception " + t.getMessage());
+            System.out.println("Unable to update database: " + t.getMessage());
         }
     }
 

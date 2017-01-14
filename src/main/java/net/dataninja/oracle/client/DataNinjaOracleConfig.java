@@ -53,7 +53,20 @@ public class DataNinjaOracleConfig {
     public DataNinjaOracleConfig() {
         // Use Yaml like config to read the conf file
         Config conf = ConfigFactory.load("dataninja.conf");
-        this.mashapeKey = conf.getString("dataninja.mashape-key");
+        // System.out.println("Loaded default config; data Ninja client version: " +
+        //        conf.getString("dataninja.client-version"));
+        init(conf);
+    }
+
+    public DataNinjaOracleConfig(String fileName) {
+        Config conf = ConfigFactory.parseFile(new java.io.File(fileName));
+        // System.out.println("Loaded config from " + fileName + "; data Ninja client version: " +
+        //        conf.getString("dataninja.client-version"));
+        init(conf);
+    }
+
+    private void init(Config conf) {
+        this.mashapeKey = conf.getString("dataninja.mashape.key");
         this.apiUrl = conf.getString("smartsentiment.service-url");
 
         // Logging config

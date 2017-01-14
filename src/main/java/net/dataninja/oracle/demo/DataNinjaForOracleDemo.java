@@ -27,11 +27,22 @@ import java.sql.SQLException;
 
 public class DataNinjaForOracleDemo {
 
-    private static DataNinjaHttpClient dnClient = new DataNinjaHttpClient();
-    private static DataNinjaClientForOracle oraClient;
-    static {
+    private DataNinjaHttpClient dnClient = null;
+    private DataNinjaClientForOracle oraClient = null;
+
+    public DataNinjaForOracleDemo() {
+        dnClient = new DataNinjaHttpClient();
         try {
             oraClient = new DataNinjaClientForOracle();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public DataNinjaForOracleDemo(String configFile) {
+        dnClient = new DataNinjaHttpClient(configFile);
+        try {
+            oraClient = new DataNinjaClientForOracle(configFile);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -69,6 +80,9 @@ public class DataNinjaForOracleDemo {
     }
 
     public void storeRdf(String rdfData) {
+        if (oraClient == null) {
+            System.out.println("Oracle client is not available, please check your config.");
+        }
         try {
             oraClient.insertRdf(rdfData);
         } catch (SQLException e) {
@@ -77,8 +91,15 @@ public class DataNinjaForOracleDemo {
     }
 
     public static void main(String[] args) throws SQLException {
-        DataNinjaForOracleDemo demo = new DataNinjaForOracleDemo();
-        // demo.init();
+        DataNinjaForOracleDemo demo;
+        if (args.length >= 1) {
+            System.out.println("Using config file " + args[0]);
+            demo = new DataNinjaForOracleDemo(args[0]);
+        } else {
+            System.out.println("Warning: using default configuration from client classpath.");
+            demo = new DataNinjaForOracleDemo();
+        }
+
         demo.process();
     }
 }

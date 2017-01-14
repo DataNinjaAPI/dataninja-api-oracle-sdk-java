@@ -10,7 +10,7 @@ Please follow these instructions to get started with the Java Client. A pre-buil
 
 Edit the configuration file 
 
-    $ vi src/main/resources/dataninja.conf
+    $ vi ./dataninja.conf
 
 Add your Mashape key to the configuration file. If you don't have a key, please signup by visiting the Data Ninja home page hosted by Mashape.
 
@@ -36,4 +36,6 @@ Please see net.dataninja.oracle.demo.OracleDataNinjaDemo.java class for guidance
 
 You can run the command-line demo to see how the client works:
 
-    $ java -cp ./jar/DataNinjaClientForOracle.jar:./oraclejars/'*' net.dataninja.oracle.demo.DataNinjaForOracleDemo
+    $ java -cp ./jar/DataNinjaClientForOracle.jar:./oraclejars/'*' net.dataninja.oracle.demo.DataNinjaForOracleDemo ./dataninja.conf
+    
+Remember to include the modified config file on the command line.

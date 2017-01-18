@@ -39,12 +39,12 @@ public class DataNinjaClientForOracle {
 
     public DataNinjaClientForOracle() throws SQLException {
         config = new DataNinjaOracleConfig();
-        // this.init();
+        this.init();
     }
 
     public DataNinjaClientForOracle(String configFile) throws SQLException {
         config = new DataNinjaOracleConfig(configFile);
-        // this.init();
+        this.init();
     }
 
     private Oracle getOracle(String szJdbcURL,

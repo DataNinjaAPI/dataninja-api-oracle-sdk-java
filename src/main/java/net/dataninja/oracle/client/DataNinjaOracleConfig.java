@@ -78,7 +78,7 @@ public class DataNinjaOracleConfig {
         this.dbUser = conf.getString("oracle.dbUser");
         this.dbPasswd = conf.getString("oracle.dbPasswd");
         this.dbModelName = conf.getString("oracle.dbModelName");
-        this.fileType=conf.getString("oracle.jdbcURL");
+        this.fileType=conf.getString("oracle.fileType");
         this.baseUri=conf.getString("oracle.jdbcURL");
 
         // Performance parameters
